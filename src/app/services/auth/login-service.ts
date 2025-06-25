@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'http://127.0.0.1:3000/auth/login';
+  private apiUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/auth/login';
 
   constructor( private http: HttpClient) { }
 
