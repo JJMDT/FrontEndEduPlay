@@ -14,7 +14,7 @@ export interface Pregunta {
   providedIn: 'root'
 })
 export class PreguntasService {
-  private baseUrl = 'http://127.0.0.1:3000/pregunta';
+  private baseUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/pregunta';
 
   constructor(private http: HttpClient) { }
 
