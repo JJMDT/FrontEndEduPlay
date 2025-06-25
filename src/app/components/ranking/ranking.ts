@@ -19,7 +19,9 @@ export class Ranking implements OnInit {
   puntajes: Jugador[] = [];
   constructor (private http: HttpClient) {}
   ngOnInit() {
+
     this.http.get<any[]>('https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/score/ranking')
+
     .subscribe(datos => {
       // console.log('recibiendo datos: ',datos)
       this.puntajes = datos

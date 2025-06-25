@@ -16,6 +16,7 @@ export interface Pregunta {
 export class PreguntasService {
   private baseUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/pregunta';
 
+
   constructor(private http: HttpClient) { }
 
   obtenerPreguntas(): Observable<Pregunta[]> {
