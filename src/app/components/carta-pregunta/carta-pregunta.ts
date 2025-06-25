@@ -37,10 +37,10 @@ export class CartaPreguntaComponent implements OnInit {
   }
 
   async obtenerPregunta(): Promise<boolean> {
-    let res: boolean = false;
+    let res: boolean = false;     
     try {
 
-      this.pregunta = await firstValueFrom(this.http.get<Pregunta>('http://eduplay.us-east-1.elasticbeanstalk.com/pregunta/traer'));
+      this.pregunta = await firstValueFrom(this.http.get<Pregunta>('https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/pregunta/traer'));
 
       //console.log('Pregunta:', this.pregunta);
       res = true;
@@ -101,7 +101,7 @@ export class CartaPreguntaComponent implements OnInit {
     try {
       this.resultado = await firstValueFrom(
         this.http.post<PuntosResultado>(
-          'http://eduplay.us-east-1.elasticbeanstalk.com/pregunta/puntuacion',
+          'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/pregunta/puntuacion',
 
           body
         )

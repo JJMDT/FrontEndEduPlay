@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'http://eduplay.us-east-1.elasticbeanstalk.com/auth/login';
+  private apiUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/auth/login';
+
 
   constructor( private http: HttpClient) { }
 
