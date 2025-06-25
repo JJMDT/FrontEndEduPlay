@@ -14,7 +14,8 @@ export interface Pregunta {
   providedIn: 'root'
 })
 export class PreguntasService {
-  private baseUrl = 'http://44.202.218.94:3000/pregunta';
+  private baseUrl = 'http://eduplay.us-east-1.elasticbeanstalk.com/pregunta';
+
 
   constructor(private http: HttpClient) { }
 
