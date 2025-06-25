@@ -16,6 +16,7 @@ export interface Pregunta {
 export class PreguntasService {
   private baseUrl = 'http://eduplay.us-east-1.elasticbeanstalk.com/pregunta';
 
+
   constructor(private http: HttpClient) { }
 
   obtenerPreguntas(): Observable<Pregunta[]> {
