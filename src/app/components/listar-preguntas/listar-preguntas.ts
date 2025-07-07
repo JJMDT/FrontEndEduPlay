@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PreguntasService, Pregunta } from '../../services/preguntas/pregunta';
+import { PreguntasService } from '../../services/preguntas/pregunta';
+import { Pregunta } from '../../modelos/pregunta.model';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
