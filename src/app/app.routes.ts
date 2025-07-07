@@ -15,10 +15,9 @@ export const routes: Routes = [
     {path:"login",component: LoginComponent},
     {path: "preguntas", component: CartaPreguntaComponent},
     {path: "resultados", component: Results},
-    {path: "admin", component: ListarPreguntas},
     {path: "presentacion", component: Presentacion},
     {path: 'admin', component: ListarPreguntas, canActivate: [AdminGuard] },
     {path: 'ranking', component: Ranking },
     {path: 'gestion', component: GestionPreguntas },
-    {path: 'questions', component: Questions}
+    {path: 'questions', component: Questions},
 ];

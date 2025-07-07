@@ -2,10 +2,61 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  height: 100vh;
+}
+
+/* Estilos para las solapas */
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  border-radius: 0;
+  color: #495057;
+  font-weight: 500;
+  padding: 15px 25px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: transparent;
+  background-color: #f8f9fa;
+}
+
+.nav-tabs .nav-link.active {
+  color: #007bff;
+  background-color: #fff;
+  border-color: transparent;
+}
+
+.nav-tabs .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #007bff;
+}
+
+.tab-content {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 0;
+}
+
+.tab-pane {
+  padding: 30px;
+}
+
+/* Formulario */
+.formulario-container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .formulario {
@@ -13,82 +64,39 @@
   padding: 30px;
   border-radius: 12px;
   border: 1px solid #dee2e6;
-  height: fit-content;
-  position: sticky;
-  top: 20px;
 }
 
 .titulo-formulario {
   color: #495057;
   border-bottom: 2px solid #007bff;
   padding-bottom: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
-.opciones-container {
-  margin-bottom: 20px;
-}
-
-.opciones-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.opciones-info {
-  font-size: 0.9em;
-  color: #6c757d;
-}
-
-.opcion-item {
-  margin-bottom: 10px;
-}
-
-.agregar-opcion-container {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-}
-
-.botones-formulario {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #dee2e6;
-}
-
-/* Estilos para el listado con scroll */
-.listado-preguntas {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
+/* Lista de preguntas */
 .listado-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 15px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dee2e6;
 }
 
-.listado-header h4 {
-  margin: 0;
-  color: #495057;
+.listado-stats {
+  display: flex;
+  align-items: center;
 }
 
-/* Contenedor con scroll */
+.filtros-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
 .contenedor-scroll {
-  flex: 1;
+  max-height: 70vh;
   overflow-y: auto;
   padding-right: 10px;
-  max-height: calc(100vh - 200px);
 }
 
 /* Scrollbar personalizada */
@@ -110,14 +118,14 @@
   background: #0056b3;
 }
 
+/* Tarjetas de preguntas */
 .pregunta-card {
-  transition: transform 0.2s ease;
-  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pregunta-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .pregunta-numero {
@@ -149,6 +157,7 @@
   background: #f8f9fa;
   border-radius: 6px;
   border-left: 4px solid #dee2e6;
+  position: relative;
 }
 
 .opcion-li.respuesta-correcta {
@@ -157,10 +166,11 @@
 }
 
 .correcta-badge {
-  float: right;
+  position: absolute;
+  right: 10px;
   color: #28a745;
   font-weight: bold;
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 .respuesta-correcta-info {
@@ -180,29 +190,84 @@
   padding-top: 15px;
 }
 
+/* Animación para modo edición */
+.formulario.modo-edicion {
+  animation: highlightEdit 3s ease-in-out;
+  border: 2px solid #ffc107;
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+}
+
+@keyframes highlightEdit {
+  0% { 
+    background-color: #fff3cd;
+    transform: scale(1);
+  }
+  25% { 
+    background-color: #fff3cd;
+    transform: scale(1.02);
+  }
+  75% { 
+    background-color: #fff3cd;
+    transform: scale(1.02);
+  }
+  100% { 
+    background-color: #f8f9fa;
+    transform: scale(1);
+  }
+}
+
+/* Mejor feedback para botones de editar */
+.botones-pregunta .btn-warning {
+  transition: all 0.3s ease;
+}
+
+.botones-pregunta .btn-warning:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Indicador visual en el título cuando está en modo edición */
+.titulo-formulario {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.formulario.modo-edicion .titulo-formulario {
+  color: #856404;
+}
+
+.formulario.modo-edicion .titulo-formulario::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ffc107, #fd7e14);
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
-  .contenedor-principal {
-    grid-template-columns: 1fr;
-    height: auto;
+  .nav-tabs .nav-link {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
+  
+  .tab-pane {
+    padding: 15px;
   }
   
   .formulario {
-    position: relative;
-    top: auto;
+    padding: 20px;
   }
-  
-  .contenedor-scroll {
-    max-height: 500px;
-  }
-}
-
-/* Animaciones */
-.opcion-item {
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
 }

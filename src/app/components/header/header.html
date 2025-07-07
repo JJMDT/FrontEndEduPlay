@@ -24,12 +24,11 @@
         </button>
         <button *ngIf="auth.isLoggedIn()" type="button" class="btn btn-danger dropdown-toggle"
           data-bs-toggle="dropdown">
-          Panel de Control
+          Administración
         </button>
         <ul class="dropdown-menu">
           <li><a *ngIf="!auth.isLoggedIn()" class="dropdown-item" [routerLink]="['/login']">Login</a></li>
-          <li><a *ngIf="auth.isLoggedIn()" class="dropdown-item" [routerLink]="['/admin']">Admin</a></li>
-          <li><a *ngIf="auth.isLoggedIn()" class="dropdown-item" (click)="reiniciarRanking()">Reiniciar</a></li>
+          <li><a *ngIf="auth.isLoggedIn()" class="dropdown-item" [routerLink]="['/gestion']">Panel de Control</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>

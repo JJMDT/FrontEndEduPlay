@@ -62,7 +62,7 @@ export class LoginComponent {
   loginExitoso(response: any): void {
     console.log('login exitoso', response);
     this.auth.setLoginState(this.username);  
-    this.router.navigate(['/admin']);  
+    this.router.navigate(['/gestion']);  
 
   }
 }

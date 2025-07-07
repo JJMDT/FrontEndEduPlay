@@ -10,6 +10,8 @@ export class AdminGuard implements CanActivate {
   constructor(private auth: Auth, private router: Router) {}
 
   canActivate(): boolean {
+
+    
     const esAdmin = this.auth.isLoggedIn() && this.auth.getUser() === 'admin';
     if (!esAdmin) {
       this.router.navigate(['/login']); 

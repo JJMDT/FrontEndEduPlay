@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { PreguntasService } from '../../services/preguntas/pregunta';
 import {FormsModule,ReactiveFormsModule,FormBuilder,FormGroup,Validators,AbstractControl, FormArray} from '@angular/forms';
 import { Pregunta } from '../../modelos/pregunta.model';
+import { Ranking } from "../ranking/ranking";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-gestion-preguntas',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, Ranking],
   templateUrl: './gestion-preguntas.html',
   styleUrl: './gestion-preguntas.css'
 })
@@ -16,18 +18,35 @@ export class GestionPreguntas implements OnInit{
   formulario!: FormGroup;
   preguntaEnEdicion: Pregunta | null = null;
 
+    filtroTexto: string = '';
+  preguntasFiltradas: Pregunta[] = [];
+
   //contantes
 
   readonly OPCIONES_MINIMAS = 2;
   readonly OPCIONES_MAXIMAS = 4;
 
-  constructor(private preguntaService : PreguntasService, private fb : FormBuilder ) {}
+  constructor(private preguntaService : PreguntasService, private fb : FormBuilder, private http : HttpClient ) {}
 
   ngOnInit(){
 
     this.iniciarFormularios();
     this.obtenerPreguntas();
     
+  }
+
+ 
+  reiniciarRanking() {
+    if (confirm('¿Estás seguro de que deseas reiniciar el ranking?')) {
+      this.http.delete('http://127.0.0.1:3000/score/reiniciar')
+        .subscribe({
+          next: () => {
+            alert('Ranking reiniciado correctamente');
+            window.location.reload();
+          },
+          error: () => alert('Hubo un error al reiniciar el ranking')
+        });
+    }
   }
 
   private iniciarFormularios(): void {
@@ -220,9 +239,12 @@ export class GestionPreguntas implements OnInit{
   }
 
   /**
-   * Edita una pregunta existente
+   * Edita una pregunta existente y cambia al tab de crear
    */
   editarPregunta(pregunta: Pregunta): void {
+    console.log('✏️ Editando pregunta:', pregunta);
+    
+    // Establecer pregunta en edición
     this.preguntaEnEdicion = pregunta;
 
     // Limpiar opciones actuales
@@ -238,6 +260,27 @@ export class GestionPreguntas implements OnInit{
     pregunta.opciones.forEach(opcion => {
       this.opciones.push(this.fb.control(opcion, Validators.required));
     });
+
+    // Cambiar automáticamente al tab de crear
+    this.cambiarATabCrear();
+  }
+
+  /**
+   * Cambia al tab de crear pregunta
+   */
+  private cambiarATabCrear(): void {
+    try {
+      // Buscar el botón del tab "Crear Pregunta"
+      const homeTab = document.getElementById('home-tab');
+      if (homeTab) {
+        homeTab.click();
+        console.log('🔄 Cambiado al tab de crear pregunta');
+      } else {
+        console.error('❌ No se encontró el tab home-tab');
+      }
+    } catch (error) {
+      console.error('❌ Error al cambiar de tab:', error);
+    }
   }
 
   /**
@@ -279,6 +322,87 @@ export class GestionPreguntas implements OnInit{
   private limpiarOpciones(): void {
     while (this.opciones.length) {
       this.opciones.removeAt(0);
+    }
+  }
+
+  /**
+   * Versión mejorada: Edita pregunta con feedback visual
+   */
+  editarPreguntaConAnimacion(pregunta: Pregunta): void {
+    try {
+      console.log('✏️ Iniciando edición con animación:', pregunta);
+      
+      // Mostrar estado de carga en el botón
+      const btnEditar = event?.target as HTMLElement;
+      const btnOriginal = btnEditar?.innerHTML;
+      
+      if (btnEditar) {
+        btnEditar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
+        (btnEditar as HTMLButtonElement).disabled = true;
+      }
+
+      // Establecer pregunta en edición
+      this.preguntaEnEdicion = pregunta;
+
+      // Preparar formulario
+      this.prepararFormularioParaEdicion(pregunta);
+
+      // Cambiar al tab con delay para mejor UX
+      setTimeout(() => {
+        this.cambiarATabCrear();
+        
+        // Restaurar botón
+        if (btnEditar && btnOriginal) {
+          btnEditar.innerHTML = btnOriginal;
+          (btnEditar as HTMLButtonElement).disabled = false;
+        }
+        
+        // Resaltar formulario
+        this.resaltarFormularioEdicion();
+      }, 500);
+
+    } catch (error) {
+      console.error('❌ Error al editar pregunta:', error);
+      alert('Error al cargar la pregunta para edición');
+    }
+  }
+
+  /**
+   * Prepara el formulario para edición
+   */
+  private prepararFormularioParaEdicion(pregunta: Pregunta): void {
+    // Limpiar opciones actuales
+    this.limpiarOpciones();
+
+    // Llenar campos básicos
+    this.formulario.patchValue({
+      pregunta: pregunta.pregunta,
+      respuestaCorrecta: pregunta.respuestaCorrecta
+    });
+
+    // Agregar opciones dinámicamente
+    pregunta.opciones.forEach(opcion => {
+      this.opciones.push(this.fb.control(opcion, Validators.required));
+    });
+
+    console.log('📝 Formulario preparado para edición');
+  }
+
+  /**
+   * Resalta el formulario cuando está en modo edición
+   */
+  private resaltarFormularioEdicion(): void {
+    const formulario = document.querySelector('.formulario');
+    if (formulario) {
+      formulario.classList.add('modo-edicion');
+      
+      // Scroll al formulario
+      formulario.scrollIntoView({ behavior: 'smooth' });
+      
+      // Quitar clase después de 3 segundos
+      setTimeout(() => {
+        formulario.classList.remove('modo-edicion');
+      }, 3000);
     }
   }
 }
