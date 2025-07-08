@@ -16,14 +16,22 @@ export class Ranking implements OnInit {
   constructor(private rankingService: RankingService) {}
 
   ngOnInit() {
+    this.cargarRanking();
+  }
+
+  cargarRanking() {
     this.rankingService.obtenerRanking().subscribe({
       next: (jugadores) => {
         this.puntajes = jugadores;
-        console.log('✅ Ranking recibido:', this.puntajes);
       },
       error: (error) => {
         console.error('Error al cargar el ranking:', error);
       },
     });
+  }
+
+  // Método público para actualizar el ranking desde el componente padre
+  actualizarRanking() {
+    this.cargarRanking();
   }
 }

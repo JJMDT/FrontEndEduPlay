@@ -1,10 +1,10 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PreguntasService } from '../../services/preguntas/pregunta';
 import {FormsModule,ReactiveFormsModule,FormBuilder,FormGroup,Validators,AbstractControl, FormArray} from '@angular/forms';
 import { Pregunta } from '../../modelos/pregunta.model';
 import { Ranking } from "../ranking/ranking";
-import { HttpClient } from '@angular/common/http';
+import { RankingService } from '../../services/ranking/ranking';
 
 @Component({
   selector: 'app-gestion-preguntas',
@@ -13,6 +13,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './gestion-preguntas.css'
 })
 export class GestionPreguntas implements OnInit{
+
+  @ViewChild(Ranking) rankingComponent!: Ranking;
 
   preguntas: Pregunta[] = [];
   formulario!: FormGroup;
@@ -26,7 +28,7 @@ export class GestionPreguntas implements OnInit{
   readonly OPCIONES_MINIMAS = 2;
   readonly OPCIONES_MAXIMAS = 4;
 
-  constructor(private preguntaService : PreguntasService, private fb : FormBuilder, private http : HttpClient ) {}
+  constructor(private preguntaService : PreguntasService, private fb : FormBuilder, private rankingService : RankingService ) {}
 
   ngOnInit(){
 
@@ -37,16 +39,17 @@ export class GestionPreguntas implements OnInit{
 
  
   reiniciarRanking() {
-    if (confirm('¿Estás seguro de que deseas reiniciar el ranking?')) {
-      this.http.delete('http://127.0.0.1:3000/score/reiniciar')
-        .subscribe({
-          next: () => {
-            alert('Ranking reiniciado correctamente');
-            window.location.reload();
-          },
-          error: () => alert('Hubo un error al reiniciar el ranking')
-        });
+   this.rankingService.reiniciarRanking().subscribe({
+    next: () => {
+      alert('Ranking reiniciado correctamente');
+      // Actualizar el componente ranking en tiempo real
+      if (this.rankingComponent) {
+        this.rankingComponent.actualizarRanking();
+      }
+    }, error: () =>{
+      alert('Hubo un error al reiniciar el ranking');
     }
+   })
   }
 
   private iniciarFormularios(): void {

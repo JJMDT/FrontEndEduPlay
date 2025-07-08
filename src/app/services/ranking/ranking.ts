@@ -8,13 +8,17 @@ import { Jugador } from '../../modelos/jugador';
 })
 export class RankingService {
 
-    private baseUrl = 'http://localhost:3000/score/ranking'; 
+    private baseUrl = 'http://localhost:3000/score'; 
 
 
   constructor( private http : HttpClient) { }
 
   obtenerRanking(): Observable<Jugador[]> {
-    return this.http.get<Jugador[]>(`${this.baseUrl}`);
+    return this.http.get<Jugador[]>(`${this.baseUrl}/ranking`);
+  }
+
+  reiniciarRanking(){
+    return this.http.delete(`${this.baseUrl}/reiniciar`);
   }
 
 }

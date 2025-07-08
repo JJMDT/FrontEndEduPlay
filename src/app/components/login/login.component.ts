@@ -37,6 +37,7 @@ export class LoginComponent {
     this.loginService.login(credenciales).subscribe({
       next: (response) => {
         this.loginExitoso(response);
+        this.router.navigate(['/gestion']); // Redirigir a la página de gestión
       },
       error: (error) => {
         this.mensaje = error.error.error;
@@ -61,8 +62,7 @@ export class LoginComponent {
 
   loginExitoso(response: any): void {
     console.log('login exitoso', response);
-    this.auth.setLoginState(this.username);  
-    this.router.navigate(['/gestion']);  
-
+    this.auth.setLoginState(this.username);
+    // No necesitamos el navigate aquí porque ya se hace arriba en el subscribe
   }
 }
