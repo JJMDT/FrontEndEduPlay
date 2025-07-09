@@ -1,29 +1,33 @@
 <div *ngIf="pregunta" class="container text-center my-4" style="max-width: 600px;">
-    <p class="pregunta-contador">
-        Pregunta {{contadorPreguntas}} de {{TOTAL_PREGUNTAS}}
-    </p>
+   
+    <h2> <span>
+            Categoria:
+            {{pregunta.categoria}}
+        </span>
+    </h2>
+    <br>
+  
     <h2 class="pregunta-titulo">{{pregunta.pregunta}}</h2>
-    <div class="container-respuesta" >
-        <button 
-            *ngFor="let opcion of pregunta.opciones; let i = index"  
-            class="btn"
+    <div class="container-respuesta">
+        <button *ngFor="let opcion of pregunta.opciones; let i = index" class="btn"
             [class.correcta]="opcion === pregunta.respuestaCorrecta && respuestaUsuario !== ''"
             [class.incorrecta]="opcion === respuestaUsuario && !esCorrecta && respuestaUsuario !== ''"
-            [disabled]="respuestaUsuario !== ''"
-            (click)="verificarRespuesta(opcion)">
+            [disabled]="respuestaUsuario !== ''" (click)="verificarRespuesta(opcion)">
             {{opcion}}
         </button>
     </div>
-    
+
     <!-- Mensaje de feedback -->
-    <div *ngIf="mensajeFeedback" 
-         class="feedback-message"
-         [ngClass]="{
+    <div *ngIf="mensajeFeedback" class="feedback-message" [ngClass]="{
              'text-success': esCorrecta,
              'text-danger': !esCorrecta
          }">
         {{mensajeFeedback}}
     </div>
+    <br>
+      <p class="pregunta-contador">
+        Pregunta {{contadorPreguntas}} de {{TOTAL_PREGUNTAS}}
+    </p>
 </div>
 
 <div *ngIf="!pregunta" class="text-center">

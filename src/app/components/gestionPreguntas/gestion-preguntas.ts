@@ -2,7 +2,7 @@ import { Component,OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PreguntasService } from '../../services/preguntas/pregunta';
 import {FormsModule,ReactiveFormsModule,FormBuilder,FormGroup,Validators,AbstractControl, FormArray} from '@angular/forms';
-import { Pregunta } from '../../modelos/pregunta.model';
+import { CategoriaPregunta, Pregunta } from '../../modelos/pregunta.model';
 import { Ranking } from "../ranking/ranking";
 import { RankingService } from '../../services/ranking/ranking';
 
@@ -34,7 +34,9 @@ export class GestionPreguntas implements OnInit{
 
     this.iniciarFormularios();
     this.obtenerPreguntas();
-    
+     // Debugging temporal
+  console.log('Controles del formulario:', Object.keys(this.formulario.controls));
+  console.log('¿Existe categoria?:', this.formulario.get('categoria'));
   }
 
  
@@ -52,15 +54,16 @@ export class GestionPreguntas implements OnInit{
    })
   }
 
-  private iniciarFormularios(): void {
-    this.formulario = this.fb.group({
-      pregunta: ['', Validators.required],
-      opciones: this.fb.array([],[this.validarOpcionesUnicas.bind(this)]),
-      respuestaCorrecta: ['', Validators.required]
-    })
+private iniciarFormularios(): void {
+  this.formulario = this.fb.group({
+    pregunta: ['', Validators.required],
+    opciones: this.fb.array([],[this.validarOpcionesUnicas.bind(this)]),
+    respuestaCorrecta: ['', Validators.required],
+    categoria: ['', Validators.required] // ← Asegúrate de que el nombre coincida exactamente
+  })
 
-    this.crearOpciones()
-  }
+  this.crearOpciones()
+}
 
   private crearOpciones(): void {
     for (let i = 0; i < this.OPCIONES_MINIMAS; i++) {
@@ -85,6 +88,9 @@ export class GestionPreguntas implements OnInit{
     }
   }
 
+get categorias() {
+  return Object.values(CategoriaPregunta);
+}
 
   get opciones(): FormArray {
     return this.formulario.get('opciones') as FormArray;
@@ -101,6 +107,7 @@ export class GestionPreguntas implements OnInit{
     get puedeEliminarOpcion(): boolean {
     return this.cantidadOpciones > this.OPCIONES_MINIMAS;
   }
+
 
     private validarOpcionesUnicas(control: AbstractControl): {[key: string]: any} | null {
     const opciones = control.value;
@@ -173,7 +180,8 @@ export class GestionPreguntas implements OnInit{
     const nuevaPregunta: Pregunta = {
       pregunta: this.formulario.value.pregunta.trim(),
       opciones: this.opciones.value.filter((opcion: string) => opcion.trim()),
-      respuestaCorrecta: this.formulario.value.respuestaCorrecta.trim()
+      respuestaCorrecta: this.formulario.value.respuestaCorrecta.trim(),
+      categoria: this.formulario.value.categoria.trim() as CategoriaPregunta // Asegúrate de que sea del tipo correcto
     };
 
     const peticion = this.preguntaEnEdicion && this.preguntaEnEdicion._id
@@ -256,7 +264,8 @@ export class GestionPreguntas implements OnInit{
     // Llenar formulario con datos de la pregunta
     this.formulario.patchValue({
       pregunta: pregunta.pregunta,
-      respuestaCorrecta: pregunta.respuestaCorrecta
+      respuestaCorrecta: pregunta.respuestaCorrecta,
+      categoria: pregunta.categoria || CategoriaPregunta.RANDOM
     });
 
     // Agregar opciones de la pregunta
@@ -380,7 +389,8 @@ export class GestionPreguntas implements OnInit{
     // Llenar campos básicos
     this.formulario.patchValue({
       pregunta: pregunta.pregunta,
-      respuestaCorrecta: pregunta.respuestaCorrecta
+      respuestaCorrecta: pregunta.respuestaCorrecta,
+      categoria: pregunta.categoria || CategoriaPregunta.RANDOM
     });
 
     // Agregar opciones dinámicamente

@@ -38,4 +38,8 @@ export class PreguntasService {
   return this.http.put(`${this.baseUrl}/${id}`, pregunta);
 }
 
+  obtenerPreguntasPorCategoria(categoria: string): Observable<Pregunta[]> {
+    return this.http.get<Pregunta[]>(`${this.baseUrl}/categoria/${categoria}`);
+  }
+
 }

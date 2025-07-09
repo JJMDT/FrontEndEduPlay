@@ -14,7 +14,7 @@ import { PreguntasService } from '../../services/preguntas/pregunta';
 })
 export class Questions implements OnInit {
   //contantes
-  readonly TOTAL_PREGUNTAS = 5;
+  readonly TOTAL_PREGUNTAS = 10;
   readonly PUNTOS_POR_RESPUESTA = 10;
   readonly TIEMPO_FEEDBACK = 2000; // Tiempo en milisegundos para mostrar el feedback
 
@@ -127,7 +127,6 @@ export class Questions implements OnInit {
 
   private finalizarJuego(): void {
     this.juegoTerminado = true; // ← Marcar que el juego terminó
-    this.mensajeFeedback = `¡Juego terminado! Puntuación: ${this.puntosTotales}`;
 
     console.log('Juego terminado:', {
       correctas: this.contadorCorrectas,
@@ -144,7 +143,7 @@ export class Questions implements OnInit {
     setTimeout(() => {
       // this.route.navigate(['/resultados']);
       this.route.navigate(['/resultados']);
-    }, 4000);
+    }, 3000);
   }
 
   enviarPuntos():void {
