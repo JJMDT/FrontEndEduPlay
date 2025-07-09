@@ -11,7 +11,8 @@ export class Puntaje {
   private puntosTotales: number = 0;
   private nombreJugador: string = 'anonimo';
 
-  private baseUrl = 'http://localhost:3000/pregunta/puntuacion'; 
+  //private baseUrl = 'http://localhost:3000/pregunta/puntuacion'; 
+  private baseUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/pregunta/puntuacion'; // URL de nube
 
   constructor(private http: HttpClient) { }
 

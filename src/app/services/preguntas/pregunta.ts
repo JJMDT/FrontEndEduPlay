@@ -10,9 +10,9 @@ import { Pregunta } from '../../modelos/pregunta.model';
 })
 export class PreguntasService {
   // esta es la url de nube
-  //private baseUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/pregunta';
+  private baseUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/pregunta';
+  //private baseUrl = 'http://localhost:3000/pregunta'; // URL local para desarrollo
 
-  private baseUrl = 'http://localhost:3000/pregunta'; // URL local para desarrollo
 
   constructor(private http: HttpClient) { }
 

@@ -8,7 +8,8 @@ import { Jugador } from '../../modelos/jugador';
 })
 export class RankingService {
 
-    private baseUrl = 'http://localhost:3000/score'; 
+    //private baseUrl = 'http://localhost:3000/score'; 
+    private baseUrl = 'https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/score'; // URL de nube
 
 
   constructor( private http : HttpClient) { }
