@@ -1,0 +1,283 @@
+.contenedor-principal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilos para las solapas */
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  border-radius: 0;
+  color: #495057;
+  font-weight: 500;
+  padding: 15px 25px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: transparent;
+  background-color: #f8f9fa;
+}
+
+.nav-tabs .nav-link.active {
+  color: #007bff;
+  background-color: #fff;
+  border-color: transparent;
+}
+
+.nav-tabs .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #007bff;
+}
+
+.tab-content {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 0;
+}
+
+.tab-pane {
+  padding: 30px;
+}
+
+/* Formulario */
+.formulario-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.formulario {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+}
+
+.titulo-formulario {
+  color: #495057;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+}
+
+/* Lista de preguntas */
+.listado-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.listado-stats {
+  display: flex;
+  align-items: center;
+}
+
+.filtros-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.contenedor-scroll {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Scrollbar personalizada */
+.contenedor-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.contenedor-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.contenedor-scroll::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 10px;
+}
+
+.contenedor-scroll::-webkit-scrollbar-thumb:hover {
+  background: #0056b3;
+}
+
+/* Tarjetas de preguntas */
+.pregunta-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pregunta-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.pregunta-numero {
+  background: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  margin-right: 10px;
+}
+
+.opciones-lista {
+  margin-bottom: 15px;
+}
+
+.opciones-titulo {
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.opciones-ul {
+  list-style: none;
+  padding: 0;
+}
+
+.opcion-li {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #dee2e6;
+  position: relative;
+}
+
+.opcion-li.respuesta-correcta {
+  background: #d4edda;
+  border-left-color: #28a745;
+}
+
+.correcta-badge {
+  position: absolute;
+  right: 10px;
+  color: #28a745;
+  font-weight: bold;
+  font-size: 0.85em;
+}
+
+.respuesta-correcta-info {
+  padding: 10px;
+  background: #e7f3ff;
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
+}
+
+.respuesta-correcta-text {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.botones-pregunta {
+  border-top: 1px solid #dee2e6;
+  padding-top: 15px;
+}
+
+/* Animación para modo edición */
+.formulario.modo-edicion {
+  animation: highlightEdit 3s ease-in-out;
+  border: 2px solid #ffc107;
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+}
+
+@keyframes highlightEdit {
+  0% { 
+    background-color: #fff3cd;
+    transform: scale(1);
+  }
+  25% { 
+    background-color: #fff3cd;
+    transform: scale(1.02);
+  }
+  75% { 
+    background-color: #fff3cd;
+    transform: scale(1.02);
+  }
+  100% { 
+    background-color: #f8f9fa;
+    transform: scale(1);
+  }
+}
+
+/* Mejor feedback para botones de editar */
+.botones-pregunta .btn-warning {
+  transition: all 0.3s ease;
+}
+
+.botones-pregunta .btn-warning:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Indicador visual en el título cuando está en modo edición */
+.titulo-formulario {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.formulario.modo-edicion .titulo-formulario {
+  color: #856404;
+}
+
+.formulario.modo-edicion .titulo-formulario::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ffc107, #fd7e14);
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-tabs .nav-link {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
+  
+  .tab-pane {
+    padding: 15px;
+  }
+  
+  .formulario {
+    padding: 20px;
+  }
+}
+
+.pregunta-categoria {
+  background: #007bff;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  margin-right: 10px;
+
+}

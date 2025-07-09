@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule,Router } from '@angular/router';
 import { Auth } from '../../services/auth/auth';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+
 
 
 @Component({
@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Header{
 
-constructor(public auth: Auth, private router: Router, private http: HttpClient) {}
+constructor(public auth: Auth, private router: Router) {}
 
 
  logout() {
@@ -22,17 +22,5 @@ constructor(public auth: Auth, private router: Router, private http: HttpClient)
     this.router.navigate(['/login']);
   }
   
-  reiniciarRanking() {
-    if (confirm('¿Estás seguro de que deseas reiniciar el ranking?')) {
-      this.http.delete('http://127.0.0.1:3000/score/reiniciar')
-        .subscribe({
-          next: () => {
-            alert('Ranking reiniciado correctamente');
-            window.location.reload();
-          },
-          error: () => alert('Hubo un error al reiniciar el ranking')
-        });
-    }
-  }
 
 }

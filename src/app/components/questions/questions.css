@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  background-color: #F7EB33;
+  min-height: 100vh;
+  padding-top: 1px;
+
+}
+
+.list-group-item {
+  border: none;
+  padding: 0.5rem 0;
+}
+
+/* Estilo base de los botones */
+button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #9D6BCE;
+  background-color: white;
+  color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Hover solo si el botón no está deshabilitado */
+button:not(:disabled):hover {
+  background-color: #9D6BCE;
+  color: white;
+}
+
+
+
+/* Botón deshabilitado */
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+  background-color: white ; 
+  color: #666 ; 
+  border-color: #ccc ; 
+}
+/* Forzar estilos con mayor especificidad */
+.btn.correcta {
+  background-color: #28a745 ;
+  color: white ;
+  border-color: #28a745 ;
+}
+
+.btn.incorrecta {
+  background-color: #dc3545 ;
+  color: white ;
+  border-color: #dc3545 ;
+}
+/* Mensaje de feedback */
+.feedback-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+
+.container-respuesta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 1rem;
+}
+span{
+  background: #ff0000;
+  color: white;
+  padding:8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+
+}
+.pregunta-contador{
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}

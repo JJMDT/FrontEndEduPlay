@@ -1,30 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-
-interface Jugador {
-  nombre: string;
-  puntos: number;
-};
+import { Jugador } from '../../modelos/jugador';
+import { RankingService } from '../../services/ranking/ranking';
 
 @Component({
   selector: 'app-ranking',
   imports: [CommonModule],
   standalone: true,
   templateUrl: './ranking.html',
-  styleUrl: './ranking.css'
+  styleUrl: './ranking.css',
 })
 export class Ranking implements OnInit {
-
   puntajes: Jugador[] = [];
-  constructor (private http: HttpClient) {}
+
+  constructor(private rankingService: RankingService) {}
+
   ngOnInit() {
+    this.cargarRanking();
+  }
 
-    this.http.get<any[]>('https://kuf0ha66z0.execute-api.us-east-1.amazonaws.com/score/ranking')
+  cargarRanking() {
+    this.rankingService.obtenerRanking().subscribe({
+      next: (jugadores) => {
+        this.puntajes = jugadores;
+      },
+      error: (error) => {
+        console.error('Error al cargar el ranking:', error);
+      },
+    });
+  }
 
-    .subscribe(datos => {
-      // console.log('recibiendo datos: ',datos)
-      this.puntajes = datos
-    })
+  // Método público para actualizar el ranking desde el componente padre
+  actualizarRanking() {
+    this.cargarRanking();
   }
 }

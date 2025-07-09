@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact:true}">EduPlay</a>
+      [routerLinkActiveOptions]="{exact:true}">EduPlay</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -17,11 +17,23 @@
         </li>
       </ul>
 
-      <div class="d-flex">
-        <button *ngIf="auth.isLoggedIn()" class="btn btn-danger me-2" (click)="reiniciarRanking()">Reiniciar Ranking</button>
-        <button *ngIf="!auth.isLoggedIn()" class="btn btn-outline-light me-2" [routerLink]="['/login']">Login</button>
-        <button *ngIf="auth.isLoggedIn()"  class="btn btn-warning me-2" [routerLink]="['/admin']">Admin Panel</button>
-        <button *ngIf="auth.isLoggedIn()" class="btn btn-light me-2" (click)="logout()">Salir</button>
+
+      <div class="btn-group">
+        <button *ngIf="!auth.isLoggedIn()" type="button" class="btn btn-outline-light" [routerLink]="['/login']">
+          Login
+        </button>
+        <button *ngIf="auth.isLoggedIn()" type="button" class="btn btn-danger dropdown-toggle"
+          data-bs-toggle="dropdown">
+          Administración
+        </button>
+        <ul class="dropdown-menu">
+          <li><a *ngIf="!auth.isLoggedIn()" class="dropdown-item" [routerLink]="['/login']">Login</a></li>
+          <li><a *ngIf="auth.isLoggedIn()" class="dropdown-item" [routerLink]="['/gestion']">Panel de Control</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a *ngIf="auth.isLoggedIn()" class="dropdown-item" (click)="logout()" [routerLink]="['/']">Logout</a></li>
+        </ul>
       </div>
     </div>
   </div>

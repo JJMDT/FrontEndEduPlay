@@ -1,0 +1,227 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
+      role="tab" aria-controls="home-tab-pane" aria-selected="true">Crear Pregunta</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button"
+      role="tab" aria-controls="profile-tab-pane" aria-selected="false">Ver Preguntas</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button"
+      role="tab" aria-controls="contact-tab-pane" aria-selected="false">Ver Ranking</button>
+  </li>
+
+</ul>
+
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+    <div class="contenedor-principal">
+
+      <!-- Formulario de Pregunta -->
+      <form [formGroup]="formulario" (ngSubmit)="crearPregunta()" class="formulario">
+        <h3 class="titulo-formulario">
+          {{ preguntaEnEdicion ? 'Editar Pregunta' : 'Crear Pregunta' }}
+        </h3>
+
+        <div class="mb-3">
+          <label for="categoria" class="form-label">Categoría *</label>
+          <select id="categoria" class="form-select" formControlName="categoria"
+            [class.is-invalid]="formulario.get('categoria')?.invalid && formulario.get('categoria')?.touched">
+            <option value="">Selecciona una categoría</option>
+            <option *ngFor="let categoria of categorias" [value]="categoria">
+              {{ categoria }}
+            </option>
+          </select>
+          <div *ngIf="formulario.get('categoria')?.invalid && formulario.get('categoria')?.touched"
+            class="invalid-feedback">
+            <small>La categoría es requerida</small>
+          </div>
+        </div>
+        <!-- Campo Pregunta -->
+        <div class="mb-3">
+          <label for="pregunta" class="form-label">Pregunta *</label>
+          <input id="pregunta" type="text" class="form-control" formControlName="pregunta"
+            placeholder="Escribe tu pregunta aquí..."
+            [class.is-invalid]="formulario.get('pregunta')?.invalid && formulario.get('pregunta')?.touched" required />
+          <div *ngIf="formulario.get('pregunta')?.invalid && formulario.get('pregunta')?.touched"
+            class="invalid-feedback">
+            <small *ngIf="formulario.get('pregunta')?.errors?.['required']">La pregunta es requerida</small>
+            <small *ngIf="formulario.get('pregunta')?.errors?.['minlength']">La pregunta debe tener al menos 5
+              caracteres</small>
+          </div>
+        </div>
+
+
+        <!-- Opciones Dinámicas -->
+        <div class="opciones-container">
+          <div class="opciones-header">
+            <label class="form-label">Opciones de respuesta *</label>
+            <span class="opciones-info">({{ cantidadOpciones }} de {{ OPCIONES_MAXIMAS }})</span>
+          </div>
+
+          <div formArrayName="opciones">
+            <div *ngFor="let opcionCtrl of opciones.controls; let i = index" class="opcion-item mb-2">
+              <div class="input-group">
+                <span class="input-group-text">{{ i + 1 }}</span>
+                <input [id]="'opcion' + i" type="text" class="form-control" [formControlName]="i"
+                  [placeholder]="'Opción ' + (i + 1)" [class.is-invalid]="opcionCtrl.invalid && opcionCtrl.touched"
+                  required />
+                <button type="button" class="btn btn-outline-danger" (click)="eliminarOpcion(i)"
+                  [disabled]="!puedeEliminarOpcion" title="Eliminar opción">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              <div *ngIf="opcionCtrl.invalid && opcionCtrl.touched" class="invalid-feedback d-block">
+                <small *ngIf="opcionCtrl.errors?.['required']">Esta opción es requerida</small>
+                <small *ngIf="opcionCtrl.errors?.['minlength']">La opción debe tener al menos 1 carácter</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón Agregar Opción -->
+          <div class="agregar-opcion-container">
+            <button type="button" class="btn btn-outline-primary" (click)="agregarOpcion()"
+              [disabled]="!puedeAgregarOpcion">
+              <i class="fas fa-plus"></i> Agregar opción
+            </button>
+            <small class="text-muted ms-2">
+              Mínimo {{ OPCIONES_MINIMAS }} opciones, máximo {{ OPCIONES_MAXIMAS }}
+            </small>
+          </div>
+
+          <!-- Error de opciones repetidas -->
+          <div *ngIf="opciones.errors?.['opcionesRepetidas']" class="alert alert-danger mt-2">
+            <i class="fas fa-exclamation-triangle"></i> Las opciones deben ser distintas entre sí
+          </div>
+        </div>
+
+        <!-- Campo Respuesta Correcta -->
+        <div class="mb-3">
+          <label for="respuestaCorrecta" class="form-label">Respuesta Correcta *</label>
+          <input id="respuestaCorrecta" type="text" class="form-control" formControlName="respuestaCorrecta"
+            placeholder="Debe coincidir exactamente con una de las opciones"
+            [class.is-invalid]="formulario.get('respuestaCorrecta')?.invalid && formulario.get('respuestaCorrecta')?.touched"
+            required />
+          <div *ngIf="formulario.get('respuestaCorrecta')?.invalid && formulario.get('respuestaCorrecta')?.touched"
+            class="invalid-feedback">
+            <small *ngIf="formulario.get('respuestaCorrecta')?.errors?.['required']">La respuesta correcta es
+              requerida</small>
+          </div>
+          <div class="form-text">
+            <i class="fas fa-info-circle"></i>
+            La respuesta correcta debe coincidir exactamente con una de las opciones de arriba
+          </div>
+        </div>
+
+        <!-- Botones del Formulario -->
+        <div class="botones-formulario">
+          <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">
+            <i class="fas fa-save"></i>
+            {{ preguntaEnEdicion ? 'Actualizar' : 'Crear' }}
+          </button>
+
+          <button *ngIf="preguntaEnEdicion" type="button" class="btn btn-secondary ms-2" (click)="resetFormulario()">
+            <i class="fas fa-times"></i>
+            Cancelar edición
+          </button>
+
+          <button type="button" class="btn btn-outline-secondary ms-2" (click)="resetFormulario()">
+            <i class="fas fa-broom"></i>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+
+    <!-- Lista de Preguntas con Scroll -->
+    <div class="contenedor-principal">
+
+      <div class="listado-preguntas">
+        <div class="listado-header">
+          <h4>
+            <i class="fas fa-list"></i>
+            Preguntas guardadas
+          </h4>
+          <span class="badge bg-primary">{{ preguntas.length }} preguntas</span>
+        </div>
+
+        <div class="contenedor-scroll">
+          <div *ngIf="preguntas.length === 0" class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i>
+            No hay preguntas guardadas. ¡Crea tu primera pregunta!
+          </div>
+
+          <div *ngFor="let pregunta of preguntas; let i = index" class="card mb-3 pregunta-card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">
+                <span class="pregunta-numero">#{{ i + 1 }}</span>
+                <span class="pregunta-categoria">{{ pregunta.categoria }}</span>
+                {{ pregunta.pregunta }}
+                
+              </h5>
+            </div>
+
+            <div class="card-body">
+              <div class="opciones-lista">
+                <h6 class="opciones-titulo">
+                  <i class="fas fa-list-ul"></i>
+                  Opciones:
+                </h6>
+                <ul class="opciones-ul">
+                  <li *ngFor="let opcion of pregunta.opciones" class="opcion-li"
+                    [class.respuesta-correcta]="opcion === pregunta.respuestaCorrecta">
+                    {{ opcion }}
+                    <span *ngIf="opcion === pregunta.respuestaCorrecta" class="correcta-badge">
+                      <i class="fas fa-check"></i> Correcta
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="respuesta-correcta-info">
+                <strong>
+                  <i class="fas fa-star"></i>
+                  Respuesta correcta:
+                </strong>
+                <span class="respuesta-correcta-text">{{ pregunta.respuestaCorrecta }}</span>
+              </div>
+
+              <div class="botones-pregunta mt-3">
+                <button class="btn btn-warning btn-sm" (click)="editarPregunta(pregunta)" title="Editar pregunta">
+                  <i class="fas fa-edit"></i>
+                  Editar
+                </button>
+
+                <button class="btn btn-danger btn-sm ms-2" (click)="eliminar(pregunta._id)" title="Eliminar pregunta">
+                  <i class="fas fa-trash"></i>
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tab-pane fade " id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+    <div class="listado-header">
+      <h4>
+        <i class="fas fa-list"></i>
+        RANKING TOP 10
+      </h4>
+      <button class="btn btn-danger" (click)="reiniciarRanking()">Reiniciar</button>
+    </div>
+
+    <app-ranking></app-ranking>
+
+  </div>
+</div>

@@ -10,29 +10,59 @@ import { Auth } from '../../services/auth/auth';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']})
-
+  styleUrls: ['./login.component.css'],
+})
 export class LoginComponent {
-
-  username:string = '';
-  password:string = '';
-  mensaje :string | null = null;
-
+  username: string = '';
+  password: string = '';
+  mensaje: string | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private loginService: LoginService,
     private auth: Auth,
     private router: Router
-  ){}
+  ) {}
 
-  onSubmit(){
-    const credenciales = {username: this.username, password:this.password};
-    this.loginService.login(credenciales).subscribe( response => {
-      this.auth.setLoginState(this.username);
-      this.router.navigate(['/admin']);
-    },
-    error =>{
-      this.mensaje = error.error.error;
-    })
+  onSubmit() {
+    if (!this.validarCampos()) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.mensaje = null;
+
+    const credenciales = { username: this.username, password: this.password };
+
+    this.loginService.login(credenciales).subscribe({
+      next: (response) => {
+        this.loginExitoso(response);
+        this.router.navigate(['/gestion']); // Redirigir a la página de gestión
+      },
+      error: (error) => {
+        this.mensaje = error.error.error;
+      },complete: () =>{
+        this.isLoading = false;
+      }
+    });
+  }
+
+  validarCampos(): boolean {
+    if (!this.username.trim()) {
+      this.mensaje = 'El nombre de usuario es obligatorio.';
+      return false;
+    }
+    if (!this.password.trim()) {
+      this.mensaje = 'La contraseña es obligatoria.';
+      return false;
+    }
+
+    return true;
+  }
+
+  loginExitoso(response: any): void {
+    console.log('login exitoso', response);
+    this.auth.setLoginState(this.username);
+    // No necesitamos el navigate aquí porque ya se hace arriba en el subscribe
   }
 }

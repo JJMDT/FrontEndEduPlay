@@ -20,7 +20,7 @@ export class Results implements OnInit {
     this.nombre = this.puntajeservice.getNombreJugador();
   }
   playAgain() {
-    this.router.navigate(['/preguntas']);
+    this.router.navigate(['/questions']);
   }
 
    exitGame() {
