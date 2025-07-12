@@ -1,3 +1,8 @@
 .navbar-custom {
   background-color: #9D6BCE !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }

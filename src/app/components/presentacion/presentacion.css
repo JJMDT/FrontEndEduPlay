@@ -1,8 +1,11 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #F7EB33;
   min-height: 100vh;
-  padding-top: 1px;
+
 }
 
 h2 {

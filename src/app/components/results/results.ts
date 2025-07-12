@@ -27,4 +27,8 @@ export class Results implements OnInit {
     this.router.navigate(['']);
   }
 
+  ranking() {
+    this.router.navigate(['/ranking']);
+  }
+
 }

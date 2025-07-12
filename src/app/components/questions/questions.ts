@@ -49,8 +49,6 @@ export class Questions implements OnInit {
   private cargarPregunta(): void {
     this.preguntasService.preguntasAleatorias(this.TOTAL_PREGUNTAS).subscribe({
       next: (preguntas) => {
-        console.log('✅ Preguntas recibidas:', preguntas);
-
         this.preguntas = preguntas;
         this.cargarPreguntaActual();
       },
@@ -128,12 +126,6 @@ export class Questions implements OnInit {
   private finalizarJuego(): void {
     this.juegoTerminado = true; // ← Marcar que el juego terminó
 
-    console.log('Juego terminado:', {
-      correctas: this.contadorCorrectas,
-      total: this.TOTAL_PREGUNTAS,
-      puntos: this.puntosTotales,
-    });
-      // Actualizar puntos en el servicio
   this.puntajeServices.setpuntaje(this.puntosTotales);
   
   // Enviar puntos
@@ -151,7 +143,6 @@ export class Questions implements OnInit {
    this.puntajeServices.enviarPuntos().subscribe({
       next: (resultado) => {
         this.resultado = resultado;
-        console.log('Puntos enviados:', this.resultado);
       }, error: (error) => {
         console.error('Error al enviar puntos:', error);
         this.mensajeFeedback = 'Error al enviar los puntos. Inténtalo de nuevo más tarde.';

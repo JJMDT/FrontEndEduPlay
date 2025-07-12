@@ -17,13 +17,7 @@
         </button>
     </div>
 
-    <!-- Mensaje de feedback -->
-    <div *ngIf="mensajeFeedback" class="feedback-message" [ngClass]="{
-             'text-success': esCorrecta,
-             'text-danger': !esCorrecta
-         }">
-        {{mensajeFeedback}}
-    </div>
+
     <br>
       <p class="pregunta-contador">
         Pregunta {{contadorPreguntas}} de {{TOTAL_PREGUNTAS}}

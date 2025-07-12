@@ -1,27 +1,44 @@
-.results-container {
-  text-align: center;
-  padding: 40px 20px;
-  min-height: 100vh;
+.pantalla-inicio {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 0 16px;
+}
+
+.results-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
+
 h1 {
   font-size: 2rem;
   margin-bottom: 16px;
+  text-align: center;
 }
+
 .message {
   font-size: 1.1rem;
-  margin-bottom: 30px;
-  max-width: 60%;
+  margin-bottom: 20px;
+  max-width: 90%;
+  text-align: center;
 }
 
 .score-box {
   background-color: #f0f0f0;
-  padding: 20px 40px;
+  padding: 10px 20px;
   border-radius: 8px;
-  margin-bottom: 30px;
+  margin-bottom: 16px;
+  width: 80%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .score-box h2 {
@@ -34,19 +51,29 @@ h1 {
   font-weight: bold;
   margin-top: 10px;
 }
+.buttons {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 10px;
+}
 
 .btn-purple {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: #9D6BCE;
   border-color: #9D6BCE;
   color: white;
+  margin-top: 16px;
+  width: 100%;
+  max-width: 250px;
+  box-sizing: border-box;
 }
 
 .btn-purple:hover {
   background-color: #7a4ea0;
   border-color: #7a4ea0;
-  color:white;
+  color: white;
 }
-

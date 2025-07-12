@@ -1,10 +1,14 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: #F7EB33;
   min-height: 100vh;
-  padding-top: 1px;
-
+  margin: 0;
+  padding-top: 0;
 }
+
 
 .list-group-item {
   border: none;
@@ -72,7 +76,7 @@ button:disabled {
     gap: 1rem;
 }
 span{
-  background: #ff0000;
+  background: #000000;
   color: white;
   padding:8px;
   border-radius: 4px;
