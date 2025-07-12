@@ -4,8 +4,7 @@
   justify-content: center;
   align-items: center;
   background-color: #F7EB33;
-  min-height: 100vh;
-
+  height: 100vh;
 }
 
 h2 {
